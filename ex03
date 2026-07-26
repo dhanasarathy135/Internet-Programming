@@ -1,0 +1,287 @@
+Index.html 
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>S.S Electronics</title> 
+    <style> 
+        body{ 
+            font-family: Arial; 
+            margin:0; 
+        } 
+        header,footer{ 
+            background: rgb(132, 0, 0); 
+            color:white; 
+            text-align:center; 
+            padding:10px; 
+        } 
+        nav{ 
+            background: lightgray; 
+            padding:10px; 
+            text-align:center; 
+        } 
+        nav a{ 
+            text-decoration:none; 
+            margin:10px; 
+            color:black; 
+        } 
+        section{ 
+            padding:20px; 
+        } 
+    </style> 
+</head> 
+<body> 
+<header> 
+    <h1>S.S Electronics</h1> 
+</header> 
+<nav> 
+    <a href="index.html">Home</a> 
+    <a href="products.html">Products</a> 
+    <a href="feedback.html">Feedback</a> 
+    <a href="contact.html">Contact</a> 
+</nav> 
+<section> 
+    <h2>About Us</h2> 
+    <p>At S.S Electronics, we offer a wide range of branded laptops, including
+    HP, Dell, Lenovo, ASUS, Acer, and more. Our products are suitable for
+    students, professionals, gamers, and business users. Every laptop is
+    carefully selected to ensure excellent performance, durability, and value.</p> 
+    <h2>Laptops</h2> 
+    <ul>
+    <li>💻 HP ProBook 2023</li>
+    <li>💻 Dell Inspiron 15</li>
+    <li>💻 Lenovo IdeaPad Slim 5</li>
+    <li>💻 ASUS VivoBook 15</li>
+    </ul>
+    <h2>Product Video</h2> 
+    <video width="650" height="360" controls> 
+    <source src="video1.mp4" type="video/mp4"> 
+    </video> 
+    <h2>Product Audio</h2> 
+    <audio controls> 
+        <source src="audio.mp3" type="audio/mpeg"> 
+    </audio> 
+</section> 
+<footer> 
+    <p> S.S Electronics</p> 
+</footer> 
+</body> 
+</html> 
+Product.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S.S electronics</title>
+</head>
+<body style="font-family: Arial; margin:0;">
+    <header style="background-color:navy; color:white; text-align:center; padding:10px;">
+        <h1>S.S Electronics</h1>
+    </header>
+
+    <nav style="background-color:lightgray; text-align:center; padding:10px;">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="feedback.html">Feedback</a>
+    </nav>
+    <section style="width:75%; float:left; padding:20px;">
+        <h2>Laptops</h2>
+        <table style="width:100%; border-collapse:collapse;" border="1">
+            <tr>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Link</th>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td> HP ProBook 2023</td>
+                <td>60,000</td>
+                <td><a href="https://www.hp.com">Click Here</a></td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td>Dell Inspiron 15</td>
+                <td>55,000</td>
+                <td><a href="https://www.dell.com">Click Here</a></td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td>Lenovo IdeaPad Slim 5</td>
+                <td>63,500</td>
+                <td><a href="https://www.lenovo.com">Click Here</a></td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td> ASUS VivoBook 15</td>
+                <td>60,500</td>
+                <td><a href="https://www.asus.com">Click Here</a></td>
+            </tr>
+        </table>
+        <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:20px;">
+            <video width="250" height="400" controls style="border:2px solid #ccc; border-radius:8px;">
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video width="250" height="400" controls style="border:2px solid #ccc; border-radius:8px;">
+                <source src="video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video width="250" height="400" controls style="border:2px solid #ccc; border-radius:8px;">
+                <source src="video3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video width="250" height="400" controls style="border:2px solid #ccc; border-radius:8px;">
+                <source src="video4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+    <footer style="clear:both; background-color:navy; color:white; text-align:center; padding:10px;">
+        <p>S.S Electronics</p>
+    </footer>
+</body>
+</html>
+Feedback.html
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Feedback</title> 
+    <link rel="stylesheet" href="style.css"> 
+</head> 
+<body> 
+<header> 
+    <h1>S.S Electronics</h1> 
+</header> 
+<nav> 
+    <a href="index.html">Home</a> 
+    <a href="products.html">Products</a> 
+    <a href="feedback.html">Feedback</a> 
+</nav> 
+<section> 
+    <h2>Feedback Form</h2> 
+    <form> 
+        <label>Name:</label><br> 
+        <input type="text"><br><br> 
+        <label>Email:</label><br> 
+        <input type="email"><br><br> 
+        <label>Phone:</label><br> 
+        <input type="tel"><br><br> 
+        <label>Feedback:</label><br> 
+        <textarea rows="5" cols="30"></textarea><br><br> 
+        <input type="submit" value="Submit"> 
+        <input type="reset" value="Clear"> 
+    </form> 
+</section> 
+<footer> 
+    <p> S.S Electronics</p> 
+</footer> 
+</body> 
+</html> 
+Style.css
+body{ 
+    font-family: Arial; 
+    margin: 0; 
+    background-color: whitesmoke; 
+} 
+header,footer{ 
+    background-color: rgb(130, 5, 5); 
+    color: white; 
+    text-align: center; 
+    padding: 10px; 
+} 
+nav{ 
+    background-color: lightgray; 
+    text-align: center; 
+    padding: 10px; 
+} 
+nav a{ 
+    text-decoration: none; 
+    margin: 10px; 
+    color: black; 
+} 
+section{ 
+    padding: 20px; 
+} 
+input,textarea{ 
+    width: 250px; 
+    padding: 5px; 
+} 
+input[type=submit],input[type=reset]{ 
+    width: 80px; 
+}
+Contact.html
+ 
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Contact - S.S Electronics</title> 
+    <style> 
+        body{ 
+            font-family: Arial; 
+            margin:0; 
+        } 
+        header,footer{ 
+            background: navy; 
+            color:white; 
+            text-align:center; 
+            padding:10px; 
+        } 
+        nav{ 
+            background: lightgray; 
+            padding:10px; 
+            text-align:center; 
+        } 
+        nav a{ 
+            text-decoration:none; 
+            margin:10px; 
+            color:black; 
+        } 
+        section{ 
+            padding:20px; 
+        } 
+        form{ 
+            width:400px; 
+        } 
+        input, textarea{ 
+            width:100%; 
+            padding:8px; 
+            margin:8px 0; 
+        } 
+        button{ 
+            background:navy; 
+            color:white; 
+            padding:10px 20px; 
+            border:none; 
+        } 
+    </style> 
+</head> 
+<body> 
+<header> 
+    <h1>S.S Electronics</h1> 
+</header> 
+<nav> 
+    <a href="index.html">Home</a> 
+    <a href="products.html">Products</a> 
+    <a href="feedback.html">Feedback</a> 
+    <a href="contact.html">Contact</a> 
+</nav> 
+<section> 
+    <h2>Contact Us</h2> 
+    <p><b>Address:</b> Anna Street, Madurai</p> 
+    <p><b>Phone:</b> +91 98765 43210</p> 
+    <p><b>Email:</b> ss@gmail.com</p> 
+    <h2>Send Us a Message</h2> 
+    <form> 
+        <label>Name:</label> 
+        <input type="text" name="name"> 
+        <label>Email:</label> 
+        <input type="email" name="email"> 
+        <label>Message:</label> 
+        <textarea rows="5" name="message"></textarea> 
+        <button type="submit">Submit</button> 
+    </form> 
+</section> 
+<footer> 
+    <p>S.S Electronics</p> 
+</footer> 
+</body> 
+</html>
