@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EX05</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-glow: rgba(79, 70, 229, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-main);
+        }
+
+        form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .question-block {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .question-block:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .question-block p {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+
+        .user-info-block {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label.user-label {
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #fff;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .question-block label {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            margin-bottom: 0;
+        }
+
+        .question-block label:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        input[type="radio"] {
+            accent-color: var(--primary);
+            margin-right: 12px;
+            transform: scale(1.1);
+        }
+
+        input[type="submit"] {
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+
+        input[type="submit"]:active {
+            transform: scale(0.99);
+        }
+    </style>
+</head>
+<body>
+
+<form action="ExamServlet" method="post">
+
+    <div class="form-header">
+        <h2>Online Examination</h2>
+        <p>Please fill out your details and select the correct answers carefully.</p>
+    </div>
+
+    <div class="user-info-block">
+        <div class="input-group">
+            <label class="user-label" for="username">Full Name:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your full name" required>
+        </div>
+        <div class="input-group">
+            <label class="user-label" for="rollnumber">Roll Number:</label>
+            <input type="text" id="rollnumber" name="rollnumber" placeholder="Enter your roll number" required>
+        </div>
+        <div class="input-group">
+            <label class="user-label" for="regnumber">Register Number:</label>
+            <input type="text" id="regnumber" name="regnumber" placeholder="Enter your register number" required>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>1. What does JVM stand for in Java?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q1" value="Java Variable Machine" required> Java Variable Machine</label>
+            <label><input type="radio" name="q1" value="Java Virtual Machine"> Java Virtual Machine</label>
+            <label><input type="radio" name="q1" value="Just Visual Method"> Just Visual Method</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>2. Which of the following is a backend programming language?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q2" value="HTML" required> HTML</label>
+            <label><input type="radio" name="q2" value="Node.js"> Node.js</label>
+            <label><input type="radio" name="q2" value="CSS"> CSS</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>3. What does SQL stand for?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q3" value="Structured Query Language" required> Structured Query Language</label>
+            <label><input type="radio" name="q3" value="Simple Question Language"> Simple Question Language</label>
+            <label><input type="radio" name="q3" value="Stylesheet Query Language"> Stylesheet Query Language</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>4. Which CSS property controls the text size?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q4" value="font-style" required> font-style</label>
+            <label><input type="radio" name="q4" value="text-size"> text-size</label>
+            <label><input type="radio" name="q4" value="font-size"> font-size</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>5. Inside which HTML element do we put the JavaScript?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q5" value="script" required> &lt;script&gt;</label>
+            <label><input type="radio" name="q5" value="js"> &lt;js&gt;</label>
+            <label><input type="radio" name="q5" value="javascript"> &lt;javascript&gt;</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>6. Which company developed the Java programming language?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q6" value="Microsoft" required> Microsoft</label>
+            <label><input type="radio" name="q6" value="Sun Microsystems"> Sun Microsystems</label>
+            <label><input type="radio" name="q6" value="Apple"> Apple</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>7. What is the correct way to write a comment in CSS?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q7" value="/* comment */" required> /* comment */</label>
+            <label><input type="radio" name="q7" value="// comment"> // comment</label>
+            <label><input type="radio" name="q7" value="&lt;!-- comment --&gt;"> &lt;!-- comment --&gt;</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>8. Which protocol is used to securely transfer web pages over the internet?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q8" value="HTTP" required> HTTP</label>
+            <label><input type="radio" name="q8" value="FTP"> FTP</label>
+            <label><input type="radio" name="q8" value="HTTPS"> HTTPS</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>9. In relational databases, what does a primary key uniquely identify?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q9" value="A column" required> A column</label>
+            <label><input type="radio" name="q9" value="A row"> A row</label>
+            <label><input type="radio" name="q9" value="An entire table"> An entire table</label>
+        </div>
+    </div>
+
+    <div class="question-block">
+        <p><strong>10. Which Git command is used to download a repository from a remote source?</strong></p>
+        <div class="options-group">
+            <label><input type="radio" name="q10" value="git push" required> git push</label>
+            <label><input type="radio" name="q10" value="git commit"> git commit</label>
+            <label><input type="radio" name="q10" value="git clone"> git clone</label>
+        </div>
+    </div>
+
+    <input type="submit" value="Submit Exam">
+
+</form>
+
+</body>
+</html>
+
+Result page :
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class ExamServlet extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+                          throws ServletException, IOException {
+
+        // Retrieving form parameters including Roll Number and Register Number
+        String username = request.getParameter("username");
+        String rollnumber = request.getParameter("rollnumber");
+        String regnumber = request.getParameter("regnumber");
+
+        String q1 = request.getParameter("q1");
+        String q2 = request.getParameter("q2");
+        String q3 = request.getParameter("q3");
+        String q4 = request.getParameter("q4");
+        String q5 = request.getParameter("q5");
+        String q6 = request.getParameter("q6");
+        String q7 = request.getParameter("q7");
+        String q8 = request.getParameter("q8");
+        String q9 = request.getParameter("q9");
+        String q10 = request.getParameter("q10");
+
+        int score = 0;
+
+        // Evaluation Logic
+        if ("Java Virtual Machine".equals(q1)) { score++; }
+        if ("Node.js".equals(q2)) { score++; }
+        if ("Structured Query Language".equals(q3)) { score++; }
+        if ("font-size".equals(q4)) { score++; }
+        if ("script".equals(q5)) { score++; }
+        if ("Sun Microsystems".equals(q6)) { score++; }
+        if ("/* comment */".equals(q7)) { score++; }
+        if ("HTTPS".equals(q8)) { score++; }
+        if ("A row".equals(q9)) { score++; }
+        if ("git clone".equals(q10)) { score++; }
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Styled HTML Response matching the exam form design
+        out.println("<!DOCTYPE html>");
+        out.println("<html lang='en'>");
+        out.println("<head>");
+        out.println("<meta charset='UTF-8'>");
+        out.println("<meta name='viewport' content='width=device-width, initial-scale=1.0'>");
+        out.println("<title>Exam Result</title>");
+        out.println("<style>");
+        out.println(":root {");
+        out.println("    --primary: #4f46e5;");
+        out.println("    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);");
+        out.println("    --card-bg: #ffffff;");
+        out.println("    --text-main: #1f2937;");
+        out.println("    --text-muted: #4b5563;");
+        out.println("    --border-color: #e5e7eb;");
+        out.println("}");
+        out.println("body {");
+        out.println("    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;");
+        out.println("    background: var(--bg-gradient);");
+        out.println("    min-height: 100vh;");
+        out.println("    margin: 0;");
+        out.println("    padding: 40px 20px;");
+        out.println("    color: var(--text-main);");
+        out.println("}");
+        out.println(".result-container {");
+        out.println("    max-width: 600px;");
+        out.println("    margin: 0 auto;");
+        out.println("    background: var(--card-bg);");
+        out.println("    padding: 40px;");
+        out.println("    border-radius: 16px;");
+        out.println("    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);");
+        out.println("    border: 1px solid rgba(255, 255, 255, 0.8);");
+        out.println("    text-align: center;");
+        out.println("}");
+        out.println("h2 {");
+        out.println("    color: var(--primary);");
+        out.println("    font-size: 28px;");
+        out.println("    margin: 0 0 10px 0;");
+        out.println("}");
+        out.println(".details-box {");
+        out.println("    background: #fafafa;");
+        out.println("    border: 1px solid var(--border-color);");
+        out.println("    border-radius: 10px;");
+        out.println("    padding: 20px;");
+        out.println("    margin: 25px 0;");
+        out.println("    text-align: left;");
+        out.println("}");
+        out.println(".details-box p {");
+        out.println("    margin: 8px 0;");
+        out.println("    font-size: 15px;");
+        out.println("    color: var(--text-muted);");
+        out.println("}");
+        out.println(".details-box span {");
+        out.println("    font-weight: 600;");
+        out.println("    color: var(--text-main);");
+        out.println("}");
+        out.println(".score-display {");
+        out.println("    font-size: 24px;");
+        out.println("    font-weight: bold;");
+        out.println("    color: var(--primary);");
+        out.println("    margin: 20px 0;");
+        out.println("}");
+        out.println(".status-pass {");
+        out.println("    color: #166534;");
+        out.println("    background: #f0fdf4;");
+        out.println("    border: 1px solid #bbf7d0;");
+        out.println("    padding: 12px;");
+        out.println("    border-radius: 8px;");
+        out.println("    font-weight: 600;");
+        out.println("}");
+        out.println(".status-fail {");
+        out.println("    color: #991b1b;");
+        out.println("    background: #fef2f2;");
+        out.println("    border: 1px solid #fecaca;");
+        out.println("    padding: 12px;");
+        out.println("    border-radius: 8px;");
+        out.println("    font-weight: 600;");
+        out.println("}");
+        out.println("</style>");
+        out.println("</head>");
+        out.println("<body>");
+
+        out.println("<div class='result-container'>");
+        out.println("<h2>Examination Result</h2>");
+        out.println("<p style='color: var(--text-muted); font-size: 14px;'>Here is the summary of your performance.</p>");
+
+        out.println("<div class='details-box'>");
+        out.println("<p>Full Name: <span>" + username + "</span></p>");
+        out.println("<p>Roll Number: <span>" + rollnumber + "</span></p>");
+        out.println("<p>Register Number: <span>" + regnumber + "</span></p>");
+        out.println("</div>");
+
+        out.println("<div class='score-display'>Your Score: " + score + " / 10</div>");
+
+        if (score >= 5) {
+            out.println("<div class='status-pass'>Result: PASS</div>");
+        } else {
+            out.println("<div class='status-fail'>Result: FAIL</div>");
+        }
+
+        out.println("</div>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
