@@ -1,0 +1,1037 @@
+CREATE TABLE TICKETS (
+
+    TICKET_ID INT GENERATED ALWAYS AS IDENTITY
+
+        (START WITH 1, INCREMENT BY 1)
+
+        PRIMARY KEY,
+
+    USERNAME VARCHAR(100),
+
+    EMAIL VARCHAR(100),
+
+    PHONE VARCHAR(20),
+
+    EVENT_NAME VARCHAR(100),
+
+    EVENT_DATE DATE,
+
+    TICKET_TYPE VARCHAR(30),
+
+    NUM_TICKETS INT,
+
+    SEAT_PREFERENCE VARCHAR(30),
+
+    PAYMENT_METHOD VARCHAR(30),
+
+    TOTAL_AMOUNT DOUBLE,
+
+    BOOKING_TIME TIMESTAMP
+
+);
+
+Index.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Ticket Booking System</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background-color: #f2f2f2;
+
+        }
+
+        .container {
+
+            width: 600px;
+
+            margin: 30px auto;
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+        }
+
+        h1 {
+
+            text-align: center;
+
+        }
+
+        label {
+
+            display: block;
+
+            margin-top: 12px;
+
+            font-weight: bold;
+
+        }
+
+        input, select {
+
+            width: 100%;
+
+            padding: 9px;
+
+            margin-top: 5px;
+
+            box-sizing: border-box;
+
+        }
+
+        .radio {
+
+            width: auto;
+
+        }
+
+        .button {
+
+            margin-top: 20px;
+
+            width: 100%;
+
+            padding: 12px;
+
+            background-color: #333;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+
+        }
+
+        .button:hover {
+
+            background-color: #555;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Ticket Booking System</h1>
+
+    <form action="TicketServlet" method="post">
+
+        <label>Name</label>
+
+        <input type="text" name="userName" required>
+
+        <label>Email</label>
+
+        <input type="email" name="email" required>
+
+        <label>Phone Number</label>
+
+        <input type="tel" name="phone"
+
+               pattern="[0-9]{10}"
+
+               required>
+
+        <label>Event Name</label>
+
+        <select name="eventName" required>
+
+            <option value="">-- Select Event --</option>
+
+            <option value="Tech Fest 2026">Tech Fest 2026</option>
+
+            <option value="Music Fest 2026">Music Fest 2026</option>
+
+            <option value="Cultural Fest 2026">Cultural Fest 2026</option>
+
+            <option value="Sports Meet 2026">Sports Meet 2026</option>
+
+        </select>
+
+        <label>Event Date</label>
+
+        <input type="date" name="eventDate" required>
+
+        <label>Ticket Type</label>
+
+        <select name="ticketType" required>
+
+            <option value="">-- Select Ticket Type --</option>
+
+            <option value="Regular">Regular - ₹200</option>
+
+            <option value="Student">Student - ₹250</option>
+
+            <option value="VIP">VIP - ₹500</option>
+
+        </select>
+
+        <label>Number of Tickets</label>
+
+        <input type="number"
+
+               name="numTickets"
+
+               min="1"
+
+               max="10"
+
+               required>
+
+        <label>Seat Preference</label>
+
+        <select name="seatPreference" required>
+
+            <option value="">-- Select Seat --</option>
+
+            <option value="Front">Front</option>
+
+            <option value="Middle">Middle</option>
+
+            <option value="Back">Back</option>
+
+        </select>
+
+        <label>Payment Method</label>
+
+        <input class="radio"
+
+               type="radio"
+
+               name="paymentMethod"
+
+               value="UPI"
+
+               required> UPI
+
+        <input class="radio"
+
+               type="radio"
+
+               name="paymentMethod"
+
+               value="Card"> Card
+
+        <input class="radio"
+
+               type="radio"
+
+               name="paymentMethod"
+
+               value="Cash"> Cash
+
+        <button class="button" type="submit">
+
+            BOOK TICKET
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
+
+TicketServlet.java
+
+import java.io.IOException;
+
+import java.io.PrintWriter;
+
+import java.sql.Connection;
+
+import java.sql.Date;
+
+import java.sql.DriverManager;
+
+import java.sql.PreparedStatement;
+
+import java.sql.ResultSet;
+
+import java.sql.Timestamp;
+
+import javax.servlet.ServletException;
+
+import javax.servlet.annotation.WebServlet;
+
+import javax.servlet.http.HttpServlet;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/TicketServlet")
+
+public class TicketServlet extends HttpServlet {
+
+    private static final String DB_URL =
+
+            "jdbc:derby://localhost:1527/TicketDB";
+
+    private static final String DB_USER = "app";
+
+    private static final String DB_PASSWORD = "app";
+
+    @Override
+
+    protected void doPost(HttpServletRequest request,
+
+                          HttpServletResponse response)
+
+            throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        try {
+
+            String userName = request.getParameter("userName");
+
+            String email = request.getParameter("email");
+
+            String phone = request.getParameter("phone");
+
+            String eventName = request.getParameter("eventName");
+
+            Date eventDate =
+
+                    Date.valueOf(request.getParameter("eventDate"));
+
+            String ticketType =
+
+                    request.getParameter("ticketType");
+
+            int numTickets =
+
+                    Integer.parseInt(request.getParameter("numTickets"));
+
+            String seatPreference =
+
+                    request.getParameter("seatPreference");
+
+            String paymentMethod =
+
+                    request.getParameter("paymentMethod");
+
+            double ticketPrice;
+
+            switch (ticketType) {
+
+                case "Regular":
+
+                    ticketPrice = 200;
+
+                    break;
+
+                case "Student":
+
+                    ticketPrice = 250;
+
+                    break;
+
+                case "VIP":
+
+                    ticketPrice = 500;
+
+                    break;
+
+                default:
+
+                    ticketPrice = 0;
+
+                    break;
+
+            }
+
+            double totalAmount =
+
+                    ticketPrice * numTickets;
+
+            Class.forName(
+
+                    "org.apache.derby.jdbc.ClientDriver"
+
+            );
+
+            Connection con =
+
+                    DriverManager.getConnection(
+
+                            DB_URL,
+
+                            DB_USER,
+
+                            DB_PASSWORD
+
+                    );
+
+            String insertSQL =
+
+                    "INSERT INTO TICKETS "
+
+                    + "(USERNAME, EMAIL, PHONE, EVENT_NAME, "
+
+                    + "EVENT_DATE, TICKET_TYPE, NUM_TICKETS, "
+
+                    + "SEAT_PREFERENCE, PAYMENT_METHOD, "
+
+                    + "TOTAL_AMOUNT, BOOKING_TIME) "
+
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement ps =
+
+                    con.prepareStatement(
+
+                            insertSQL,
+
+                            java.sql.Statement.RETURN_GENERATED_KEYS
+
+                    );
+
+            ps.setString(1, userName);
+
+            ps.setString(2, email);
+
+            ps.setString(3, phone);
+
+            ps.setString(4, eventName);
+
+            ps.setDate(5, eventDate);
+
+            ps.setString(6, ticketType);
+
+            ps.setInt(7, numTickets);
+
+            ps.setString(8, seatPreference);
+
+            ps.setString(9, paymentMethod);
+
+            ps.setDouble(10, totalAmount);
+
+            Timestamp bookingTime =
+
+                    new Timestamp(System.currentTimeMillis());
+
+            ps.setTimestamp(11, bookingTime);
+
+            ps.executeUpdate();
+
+            int ticketId = 0;
+
+            ResultSet generatedKeys =
+
+                    ps.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+
+                ticketId =
+
+                        generatedKeys.getInt(1);
+
+            }
+
+            generatedKeys.close();
+
+            ps.close();
+
+            out.println("<!DOCTYPE html>");
+
+            out.println("<html>");
+
+            out.println("<head>");
+
+            out.println("<meta charset='UTF-8'>");
+
+            out.println("<title>Ticket Booking System</title>");
+
+            out.println("<style>");
+
+            out.println(
+
+                    "body{" +
+
+                    "font-family:Arial,sans-serif;" +
+
+                    "background-color:#f2f2f2;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".container{" +
+
+                    "width:95%;" +
+
+                    "margin:30px auto;" +
+
+                    "background:white;" +
+
+                    "padding:25px;" +
+
+                    "border-radius:10px;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    "h1,h2{" +
+
+                    "text-align:center;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".success{" +
+
+                    "text-align:center;" +
+
+                    "font-size:22px;" +
+
+                    "color:green;" +
+
+                    "font-weight:bold;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".details{" +
+
+                    "width:500px;" +
+
+                    "margin:20px auto;" +
+
+                    "border-collapse:collapse;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".details td{" +
+
+                    "border:1px solid #999;" +
+
+                    "padding:8px;" +
+
+                    "text-align:center;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    "table{" +
+
+                    "width:100%;" +
+
+                    "border-collapse:collapse;" +
+
+                    "margin-top:20px;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    "th,td{" +
+
+                    "border:1px solid #999;" +
+
+                    "padding:8px;" +
+
+                    "text-align:center;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    "th{" +
+
+                    "background:#ddd;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".button{" +
+
+                    "display:block;" +
+
+                    "width:200px;" +
+
+                    "margin:20px auto;" +
+
+                    "padding:10px;" +
+
+                    "text-align:center;" +
+
+                    "background:#333;" +
+
+                    "color:white;" +
+
+                    "text-decoration:none;" +
+
+                    "}"
+
+            );
+
+            out.println(
+
+                    ".button:hover{" +
+
+                    "background:#555;" +
+
+                    "}"
+
+            );
+
+            out.println("</style>");
+
+            out.println("</head>");
+
+            out.println("<body>");
+
+            out.println("<div class='container'>");
+
+            out.println(
+
+                    "<div class='success'>" +
+
+                    "Ticket Booked Successfully" +
+
+                    "</div>"
+
+            );
+
+            out.println(
+
+                    "<h2>Your Ticket Details</h2>"
+
+            );
+
+            out.println(
+
+                    "<table class='details'>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Ticket ID</b></td>" +
+
+                    "<td>" + ticketId + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Name</b></td>" +
+
+                    "<td>" + userName + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Email</b></td>" +
+
+                    "<td>" + email + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Phone</b></td>" +
+
+                    "<td>" + phone + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Event</b></td>" +
+
+                    "<td>" + eventName + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Event Date</b></td>" +
+
+                    "<td>" + eventDate + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Ticket Type</b></td>" +
+
+                    "<td>" + ticketType + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Number of Tickets</b></td>" +
+
+                    "<td>" + numTickets + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Seat Preference</b></td>" +
+
+                    "<td>" + seatPreference + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Payment Method</b></td>" +
+
+                    "<td>" + paymentMethod + "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<td><b>Total Amount</b></td>" +
+
+                    "<td>Rs. " +
+
+                    totalAmount +
+
+                    "</td>" +
+
+                    "</tr>"
+
+            );
+
+            out.println("</table>");
+
+            out.println(
+
+                    "<h2>All Stored Ticket Records</h2>"
+
+            );
+
+            out.println("<table>");
+
+            out.println(
+
+                    "<tr>" +
+
+                    "<th>ID</th>" +
+
+                    "<th>Name</th>" +
+
+                    "<th>Email</th>" +
+
+                    "<th>Phone</th>" +
+
+                    "<th>Event</th>" +
+
+                    "<th>Date</th>" +
+
+                    "<th>Type</th>" +
+
+                    "<th>Count</th>" +
+
+                    "<th>Seat</th>" +
+
+                    "<th>Payment</th>" +
+
+                    "<th>Total</th>" +
+
+                    "<th>Booking Time</th>" +
+
+                    "</tr>"
+
+            );
+
+            String selectSQL =
+
+                    "SELECT * FROM TICKETS " +
+
+                    "ORDER BY TICKET_ID DESC";
+
+            PreparedStatement selectPS =
+
+                    con.prepareStatement(selectSQL);
+
+            ResultSet rs =
+
+                    selectPS.executeQuery();
+
+            while (rs.next()) {
+
+                int id =
+
+                        rs.getInt("TICKET_ID");
+
+                String name =
+
+                        rs.getString("USERNAME");
+
+                String dbEmail =
+
+                        rs.getString("EMAIL");
+
+                String dbPhone =
+
+                        rs.getString("PHONE");
+
+                String dbEvent =
+
+                        rs.getString("EVENT_NAME");
+
+                Date dbDate =
+
+                        rs.getDate("EVENT_DATE");
+
+                String dbType =
+
+                        rs.getString("TICKET_TYPE");
+
+                int count =
+
+                        rs.getInt("NUM_TICKETS");
+
+                String dbSeat =
+
+                        rs.getString("SEAT_PREFERENCE");
+
+                String dbPayment =
+
+                        rs.getString("PAYMENT_METHOD");
+
+                double dbTotal =
+
+                        rs.getDouble("TOTAL_AMOUNT");
+
+                Timestamp dbBookingTime =
+
+                        rs.getTimestamp("BOOKING_TIME");
+
+                out.println("<tr>");
+
+                out.println(
+
+                        "<td>" + id + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + name + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbEmail + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbPhone + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbEvent + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbDate + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbType + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + count + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbSeat + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbPayment + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>Rs. " + dbTotal + "</td>"
+
+                );
+
+                out.println(
+
+                        "<td>" + dbBookingTime + "</td>"
+
+                );
+
+                out.println("</tr>");
+
+            }
+
+            rs.close();
+
+            selectPS.close();
+
+            con.close();
+
+            out.println(
+
+                    "</table>"
+
+            );
+
+            out.println(
+
+                    "<a class='button' " +
+
+                    "href='index.html'>" +
+
+                    "Book Another Ticket" +
+
+                    "</a>"
+
+            );
+
+            out.println("</div>");
+
+            out.println("</body>");
+
+            out.println("</html>");
+
+        } catch (Exception e) {
+
+            out.println(
+
+                    "<h2>Error Occurred</h2>"
+
+            );
+
+            out.println(
+
+                    "<pre>"
+
+            );
+
+            e.printStackTrace(out);
+
+            out.println(
+
+                    "</pre>"
+
+            );
+
+        }
+
+    }
+
+}
