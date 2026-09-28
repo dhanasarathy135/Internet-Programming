@@ -1,0 +1,89 @@
+INDEX.HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration Form</title>
+</head>
+<body>
+<h2>User Registration Form</h2>
+<form action="process.jsp" method="post">
+    User Name:
+    <input type="text" name="username" required>
+    <br><br>
+    Password:
+    <input type="password" name="password" required>
+    <br><br>
+    Name:
+    <input type="text" name="name" required>
+    <br><br>
+    Credit Card Number:
+    <input type="text" name="creditcard" required>
+    <br><br>
+    Email:
+    <input type="email" name="email" required>
+    <br><br>
+    Phone Number:
+    <input type="text" name="phone" required>
+    <br><br>
+    <input type="submit" value="Register">
+</form>
+</body>
+</html>
+PROCESS.JSP
+<%@ page import="java.sql.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Status</title>
+</head>
+<body>a
+<h2>Registration Status</h2>
+
+<%
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+    String name = request.getParameter("name");
+    String creditcard = request.getParameter("creditcard");
+    String email = request.getParameter("email");
+    String phone = request.getParameter("phone");
+    String dbURL = "jdbc:derby://localhost:1527/userdb;create=true";
+    String dbUser = "root";
+    String dbPass = "root";
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    try {
+        Class.forName("org.apache.derby.jdbc.ClientDriver");
+        conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+        String sql = "INSERT INTO users (username, password, name, creditcard, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
+        pstmt.setString(3, name);
+        pstmt.setString(4, creditcard);
+        pstmt.setString(5, email);
+        pstmt.setString(6, phone);
+        int rowsInserted = pstmt.executeUpdate();
+        if (rowsInserted > 0) {
+%>
+            <p style="color: green;"><strong>Success!</strong> Registration details have been saved to Database.</p>
+<%
+        }
+    } catch (Exception e) {
+%>
+        <div style="background-color: #ffe6e6; padding: 10px; border: 1px solid red;">
+            <p style="color: red; margin: 0;"><strong>Detailed Error:</strong> <%= e.toString() %></p>
+        </div>
+<%
+    } finally {
+        try { if (pstmt != null) pstmt.close(); } catch (SQLException ignored) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ignored) {}
+    }
+%>
+<hr>
+<h3>Submitted Details:</h3>
+<p><strong>User Name:</strong> <%= username %></p>
+<p><strong>Name:</strong> <%= name %></p>
+<p><strong>Email:</strong> <%= email %></p>
+<p><strong>Phone Number:</strong> <%= phone %></p>
+</body>
+</html>
