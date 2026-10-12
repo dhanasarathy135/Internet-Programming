@@ -1,0 +1,300 @@
+Index.php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping - Bluetooth, Speakers & TVs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a3aff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .button-area {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4a3aff, #8e44ad);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #4a3aff;
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f5f5ff;
+        }
+
+        tr:hover {
+            background: #eeeaff;
+        }
+
+        .price {
+            font-weight: bold;
+            color: green;
+        }
+
+        .quantity {
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #4a3aff;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #888;
+        }
+
+        @media(max-width:700px) {
+            .container {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+
+    <script>
+        function loadOrders() {
+
+            document.getElementById("orderData").innerHTML =
+                "<div class='loading'>Loading products...</div>";
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+                    var xml = this.responseXML;
+
+                    var orders = xml.getElementsByTagName("order");
+
+                    var output = "";
+
+                    output += "<h2 style='text-align:center;'>🛒 Shopping Products</h2>";
+
+                    output += "<table>";
+
+                    output += "<tr>";
+                    output += "<th>ID</th>";
+                    output += "<th>Customer</th>";
+                    output += "<th>Product</th>";
+                    output += "<th>Quantity</th>";
+                    output += "<th>Price</th>";
+                    output += "</tr>";
+
+                    for (var i = 0; i < orders.length; i++) {
+
+                        var o = orders[i];
+
+                        function val(tag) {
+                            return o.getElementsByTagName(tag)[0]
+                                .childNodes[0].nodeValue;
+                        }
+
+                        var id = val("id");
+                        var customer = val("customer");
+                        var product = val("product");
+                        var quantity = val("quantity");
+                        var price = val("price");
+
+                        output += "<tr>";
+
+                        output += "<td>" + id + "</td>";
+                        output += "<td>" + customer + "</td>";
+                        output += "<td>" + product + "</td>";
+
+                        output += "<td class='quantity'>";
+                        output += quantity;
+                        output += "</td>";
+
+                        output += "<td class='price'>₹" + price + "</td>";
+
+                        output += "</tr>";
+                    }
+
+                    output += "</table>";
+
+                    document.getElementById("orderData").innerHTML = output;
+                }
+
+                else if (this.readyState == 4) {
+
+                    document.getElementById("orderData").innerHTML =
+                        "<div class='loading'>❌ Unable to load orders.xml</div>";
+                }
+        }
+    </script>
+
+</head>
+
+        </div>
+
+        <div id="orderData">
+
+            <div class="loading">
+                Click "Load Products" to display shopping details
+            </div>
+
+        </div>
+
+        <div class="footer">
+            Online Shopping | AJAX + XML
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+Ordes.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<orders>
+
+    <order>
+        <id>1</id>
+        <customer>Rajesh</customer>
+        <product>Bluetooth Earbuds</product>
+        <quantity>2</quantity>
+        <price>1499</price>
+    </order>
+
+    <order>
+        <id>2</id>
+        <customer>Kumar</customer>
+        <product>Bluetooth Headphones</product>
+        <quantity>1</quantity>
+        <price>2499</price>
+    </order>
+
+    <order>
+        <id>3</id>
+        <customer>Arun</customer>
+        <product>Wireless Speaker</product>
+        <quantity>2</quantity>
+        <price>3999</price>
+    </order>
+
+    <order>
+        <id>4</id>
+        <customer>Priya</customer>
+        <product>Portable Bluetooth Speaker</product>
+        <quantity>1</quantity>
+        <price>1999</price>
+    </order>
+
+    <order>
+        <id>5</id>
+        <customer>Vijay</customer>
+        <product>Party Speaker</product>
+        <quantity>1</quantity>
+        <price>6999</price>
+    </order>
+
+    <order>
+        <id>6</id>
+        <customer>Ravi</customer>
+        <product>43-inch Smart TV</product>
+        <quantity>1</quantity>
+        <price>29999</price>
+    </order>
+    <order>
+        <id>7</id>
+        <customer>Meena</customer>
+        <product>55-inch 4K Smart TV</product>
+        <quantity>1</quantity>
+        <price>44999</price>
+    </order>
+    <order>
+        <id>8</id>
+        <customer>Suresh</customer>
+        <product>32-inch LED TV</product>
+        <quantity>1</quantity>
+        <price>22999</price>
+    </order>
+    <order>
+        <id>9</id>
+        <customer>Divya</customer>
+        <product>Bluetooth Soundbar</product>
+        <quantity>1</quantity>
+        <price>8999</price>
+    </order>
+    <order>
+        <id>10</id>
+        <customer>Manoj</customer>
+        <product>Bluetooth Neckband</product>
+        <quantity>2</quantity>
+        <price>999</price>
+    </order>
+</orders>
